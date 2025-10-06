@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast - Your Daily Weather Companion</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WeatherNow</h1>
+            <p class="subtitle">Your personal weather companion</p>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <!--<span class="search-icon">🔍</span>-->
+                <input type="text" id="cityInput" placeholder="Search for a city..." autocomplete="off" />
+                <button id="searchBtn">Search</button>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="weather-display" id="weatherDisplay">
+            <div class="main-weather">
+                <div class="location">
+                    <span class="city-name" id="cityName"></span>
+                    <span class="country-flag" id="countryFlag"></span>
+                </div>
+
+                <div class="weather-icon-container">
+                    <img class="weather-icon" id="weatherIcon" alt="Weather icon" />
+                </div>
+
+                <div class="temperature-container">
+                    <div class="temperature" id="temperature"></div>
+                    <div class="description" id="description"></div>
+                </div>
+            </div>
+
+            <div class="weather-details">
+                <div class="detail-card">
+                    <div class="detail-icon">🌡️</div>
+                    <div class="detail-label">Feels Like</div>
+                    <div class="detail-value" id="feelsLike"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">💧</div>
+                    <div class="detail-label">Humidity</div>
+                    <div class="detail-value" id="humidity"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">💨</div>
+                    <div class="detail-label">Wind Speed</div>
+                    <div class="detail-value" id="windSpeed"></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">🌍</div>
+                    <div class="detail-label">Country</div>
+                    <div class="detail-value" id="country"></div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="footer-text">Last updated: <span id="updateTime"></span></p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5006/api/weather';
+        
+        const elements = {
+            cityInput: document.getElementById('cityInput'),
+            searchBtn: document.getElementById('searchBtn'),
+            weatherDisplay: document.getElementById('weatherDisplay'),
+            loading: document.getElementById('loading'),
+            errorMessage: document.getElementById('errorMessage'),
+            cityName: document.getElementById('cityName'),
+            countryFlag: document.getElementById('countryFlag'),
+            temperature: document.getElementById('temperature'),
+            description: document.getElementById('description'),
+            feelsLike: document.getElementById('feelsLike'),
+            humidity: document.getElementById('humidity'),
+            windSpeed: document.getElementById('windSpeed'),
+            country: document.getElementById('country'),
+            weatherIcon: document.getElementById('weatherIcon'),
+            updateTime: document.getElementById('updateTime')
+        };
+
+        const countryToFlag = (country) => {
+            if (!country) return '🌍';
+            return country.toUpperCase().replace(/./g, char => 
+                String.fromCodePoint(127397 + char.charCodeAt())
+            );
+        };
+
+        const formatTime = () => {
+            const now = new Date();
+            return now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit'
+            });
+        };
+
+        elements.searchBtn.addEventListener('click', searchWeather);
+        elements.cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchWeather();
+        });
+
+        async function searchWeather() {
+            const city = elements.cityInput.value.trim();
+            
+            if (!city) {
+                showError('Please enter a city name');
+                return;
+            }
+
+            hideAll();
+            if (elements.loading) elements.loading.style.display = 'block';
+
+            try {
+                const response = await fetch(`${API_URL}/${encodeURIComponent(city)}`);
+                
+                if (!response.ok) {
+                    throw new Error('City not found');
+                }
+
+                const data = await response.json();
+                displayWeather(data);
+            } catch (error) {
+                showError('Unable to fetch weather data. Please check the city name and try again.');
+            } finally {
+                if (elements.loading) elements.loading.style.display = 'none';
+            }
+        }
+
+        function displayWeather(data) {
+            elements.cityName.textContent = data.city;
+            elements.countryFlag.textContent = countryToFlag(data.country);
+            elements.temperature.textContent = `${Math.round(data.temperature)}°`;
+            elements.description.textContent = data.description;
+            elements.feelsLike.textContent = `${Math.round(data.feelsLike)}°C`;
+            elements.humidity.textContent = `${data.humidity}%`;
+            elements.windSpeed.textContent = `${data.windSpeed} m/s`;
+            elements.country.textContent = data.country;
+            elements.weatherIcon.src = `https://openweathermap.org/img/wn/${data.icon}@4x.png`;
+            elements.updateTime.textContent = formatTime();
+
+            elements.weatherDisplay.style.display = 'block';
+        }
+
+        function showError(message) {
+            elements.errorMessage.textContent = message;
+            elements.errorMessage.style.display = 'block';
+            setTimeout(() => {
+                elements.errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function hideAll() {
+            elements.weatherDisplay.style.display = 'none';
+            elements.errorMessage.style.display = 'none';
+        }
+
+        window.addEventListener('load', () => {
+            elements.cityInput.focus();
+        });
+    </script>
+
+</body>
+</html>
