@@ -25,8 +25,6 @@ C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\rjimswa.dswa.cache.j
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\scopedcss\bundle\WeatherApp.styles.css
-C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\compressed\pvpgdw2orc-yf86omuzeu.gz
-C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\compressed\s4v9l82uq6-i3p9oc0onv.gz
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\staticwebassets.development.json
@@ -37,3 +35,6 @@ C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\refint\WeatherApp.dl
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\WeatherApp.pdb
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\WeatherApp.genruntimeconfig.cache
 C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\ref\WeatherApp.dll
+C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\WeatherApp.sourcelink.json
+C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\compressed\pvpgdw2orc-r04yes0e89.gz
+C:\Users\sidde\personalprojects\WeatherApp\obj\Debug\net9.0\compressed\s4v9l82uq6-34qq4k20jb.gz
